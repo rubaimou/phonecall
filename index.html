@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Free Web Call, Chat & Scan</title>
+    <title>Global Free Caller & Multi-Chat</title>
     <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src="https://unpkg.com/html5-qrcode"></script>
@@ -14,48 +14,73 @@
         input, button { width: 100%; padding: 10px; margin: 8px 0; box-sizing: border-box; border-radius: 4px; border: 1px solid #ccc; }
         button { background: #007bff; color: white; cursor: pointer; border: none; font-weight: bold; }
         button:hover { background: #0056b3; }
-        #hangup-btn { background: #dc3545; display: none; }
-        #qrcode { display: flex; justify-content: center; margin: 15px 0; }
+        .btn-danger { background: #dc3545; }
+        .btn-danger:hover { background: #bd2130; }
         
-        /* Camera Scanner Box styling */
+        #qrcode { display: flex; justify-content: center; margin: 15px 0; }
         #reader { width: 100%; margin: 10px 0; display: none; border-radius: 8px; overflow: hidden; }
-        #scan-btn { background: #6c757d; }
-        #scan-btn:hover { background: #5a6268; }
 
-        /* Chat Room Layout */
-        #chat-box { border: 1px solid #ddd; height: 150px; overflow-y: scroll; text-align: left; padding: 10px; margin-top: 15px; background: #fafafa; border-radius: 4px; display: none;}
-        .msg { margin: 4px 0; padding: 6px; border-radius: 4px; max-width: 80%; font-size: 14px;}
+        .controls { display: flex; gap: 10px; margin: 10px 0; }
+        #mute-btn { background: #6c757d; display: none; }
+        #hangup-btn { display: none; }
+
+        /* Unified Chat Console styling */
+        #chat-box { border: 1px solid #ddd; height: 200px; overflow-y: scroll; text-align: left; padding: 10px; margin-top: 15px; background: #fafafa; border-radius: 4px; display: none;}
+        .msg { margin: 6px 0; padding: 8px; border-radius: 6px; max-width: 85%; font-size: 14px; word-wrap: break-word; }
         .msg.me { background: #e1ffc7; margin-left: auto; text-align: right; }
         .msg.them { background: #fff; border: 1px solid #eee; }
-        #msg-input-container { display: none; }
+        .file-link { display: inline-block; margin-top: 4px; color: #007bff; font-weight: bold; text-decoration: none; }
+
+        #msg-input-container { display: none; flex-direction: column; gap: 5px; }
+        .input-row { display: flex; gap: 5px; align-items: center; }
+        .input-row input { margin: 0; }
+        .utility-row { display: flex; gap: 8px; justify-content: flex-start; margin-top: 4px; }
+        .icon-btn { width: auto; padding: 6px 12px; background: #e9ecef; color: #495057; border: 1px solid #ced4da; font-size: 16px; }
+        .icon-btn:hover { background: #dee2e6; }
+        #emoji-panel { display: none; border: 1px solid #ddd; padding: 5px; background: #fff; border-radius: 4px; grid-template-columns: repeat(6, 1fr); gap: 5px; font-size: 20px; cursor: pointer; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>Free Call & Live Chat</h2>
+    <h2>Universal Call & Chat</h2>
     
     <div>
-        <p>Your Call ID:</p>
-        <h3 id="my-id">Generating ID...</h3>
+        <p>Your Local / Room ID:</p>
+        <h3 id="my-id">Generating Engine Credentials...</h3>
         <div id="qrcode"></div>
-        <p style="font-size:12px; color:#777;">Show this QR code to your friend</p>
+        <p style="font-size:12px; color:#777;">Share this QR code or ID string for Single or Group calls</p>
     </div>
 
     <hr>
 
-    <button id="scan-btn">Open Camera Scanner</button>
+    <button id="scan-btn">Scan Connection QR Code</button>
     <div id="reader"></div>
 
-    <input type="text" id="remote-id" placeholder="Friend's ID will auto-fill here" />
-    <button id="call-btn">Start Call & Chat</button>
-    <button id="hangup-btn">End Call</button>
+    <input type="text" id="remote-id" placeholder="Enter Friend ID or Room Token" />
+    <button id="call-btn">Establish Connection</button>
+    
+    <div class="controls">
+        <button id="mute-btn">Mute Microphone</button>
+        <button id="hangup-btn" class="btn-danger">Disconnect Call</button>
+    </div>
+    
     <div id="status-text" style="font-style:italic; color:#666; margin: 10px 0;">Status: Disconnected</div>
 
     <div id="chat-box"></div>
+    
     <div id="msg-input-container">
-        <input type="text" id="msg-input" placeholder="Type a message here..." />
-        <button id="send-btn" style="background:#28a745;">Send Message</button>
+        <div class="input-row">
+            <input type="text" id="msg-input" placeholder="Type message..." />
+            <button id="send-btn" style="background:#28a745; width: 80px; margin:0;">Send</button>
+        </div>
+        <div class="utility-row">
+            <button class="icon-btn" id="emoji-btn">😀</button>
+            <button class="icon-btn" id="file-trigger">📎</button>
+            <button class="icon-btn" id="voice-btn" style="background: #ffc107;">🎙️ Record</button>
+            <input type="file" id="file-input" style="display: none;" />
+        </div>
+        <div id="emoji-panel"></div>
     </div>
 </div>
 
