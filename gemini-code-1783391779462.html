@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Web Audio Caller</title>
+    <!-- Include PeerJS Library -->
+    <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; text-align: center; background: #f4f4f9; }
+        .container { max-width: 400px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        input, button { width: 100%; padding: 10px; margin: 8px 0; box-sizing: border-box; border-radius: 4px; border: 1px solid #ccc; }
+        button { background: #007bff; color: white; cursor: pointer; border: none; font-weight: bold; }
+        button:hover { background: #0056b3; }
+        #hangup-btn { background: #dc3545; display: none; }
+        #hangup-btn:hover { background: #bd2130; }
+        .status { color: #555; font-style: italic; margin: 10px 0; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Free Web Audio Call</h2>
+    
+    <div>
+        <p>Your Call ID:</p>
+        <h3 id="my-id">Generating ID...</h3>
+    </div>
+
+    <hr>
+
+    <input type="text" id="remote-id" placeholder="Paste Friend's Call ID here" />
+    <button id="call-btn">Start Call</button>
+    <button id="hangup-btn">End Call</button>
+
+    <div class="status" id="status-text">Status: Disconnected</div>
+</div>
+
+<!-- Link your JavaScript file -->
+<script src="app.js"></script>
+</body>
+</html>
