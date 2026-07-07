@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Free Web Call & Chat</title>
+    <title>Free Web Call, Chat & Scan</title>
     <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://unpkg.com/html5-qrcode"></script>
+    
     <style>
         body { font-family: Arial, sans-serif; padding: 20px; background: #f4f4f9; display: flex; justify-content: center; }
         .container { max-width: 450px; width: 100%; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-align: center; }
@@ -15,7 +17,12 @@
         #hangup-btn { background: #dc3545; display: none; }
         #qrcode { display: flex; justify-content: center; margin: 15px 0; }
         
-        /* Chat UI Styling */
+        /* Camera Scanner Box styling */
+        #reader { width: 100%; margin: 10px 0; display: none; border-radius: 8px; overflow: hidden; }
+        #scan-btn { background: #6c757d; }
+        #scan-btn:hover { background: #5a6268; }
+
+        /* Chat Room Layout */
         #chat-box { border: 1px solid #ddd; height: 150px; overflow-y: scroll; text-align: left; padding: 10px; margin-top: 15px; background: #fafafa; border-radius: 4px; display: none;}
         .msg { margin: 4px 0; padding: 6px; border-radius: 4px; max-width: 80%; font-size: 14px;}
         .msg.me { background: #e1ffc7; margin-left: auto; text-align: right; }
@@ -32,12 +39,15 @@
         <p>Your Call ID:</p>
         <h3 id="my-id">Generating ID...</h3>
         <div id="qrcode"></div>
-        <p style="font-size:12px; color:#777;">Scan QR code with a phone to copy this ID link instantly</p>
+        <p style="font-size:12px; color:#777;">Show this QR code to your friend</p>
     </div>
 
     <hr>
 
-    <input type="text" id="remote-id" placeholder="Paste Friend's Call ID here" />
+    <button id="scan-btn">Open Camera Scanner</button>
+    <div id="reader"></div>
+
+    <input type="text" id="remote-id" placeholder="Friend's ID will auto-fill here" />
     <button id="call-btn">Start Call & Chat</button>
     <button id="hangup-btn">End Call</button>
     <div id="status-text" style="font-style:italic; color:#666; margin: 10px 0;">Status: Disconnected</div>
